@@ -1,106 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_registration"
+    android:id="@+id/activity_login2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
     tools:context="com.zoonapps.stepscountapp.RegistrationActivity">
 
-    <EditText
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textSize="17sp"
-        android:id="@+id/usernameET"
-        android:hint="Username" />
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="20dp"
+        android:weightSum="1">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:textSize="17sp"
-        android:layout_marginTop="15dp"
-        android:id="@+id/passwordET"
-        android:hint="Password"
-        android:layout_below="@+id/usernameET"
-        android:layout_alignStart="@+id/usernameET" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
+            app:srcCompat="@mipmap/app_icon3" />
+
+        <EditText
+            android:id="@+id/usernameET"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_above="@+id/progressBar"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/shape1"
+            android:layout_alignParentStart="true"
+            android:drawableRight="@drawable/ic_account"
+            android:hint="اسم المستخدم"
+            android:singleLine="true"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/passwordET"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:inputType="textPassword"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/usernameET"
+            android:layout_below="@+id/usernameET"
+            android:background="@drawable/shape3"
+            android:drawableRight="@drawable/ic_lock"
+            android:hint="كلمة المرور"
+            android:singleLine="true"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/emailET"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/shape2"
+            android:textSize="16sp"
+            android:hint="الايميل"
+            android:gravity="center"
+            android:drawableRight="@drawable/email_icon"
+            android:layout_below="@+id/passwordET"
+            android:layout_alignStart="@+id/passwordET"
+            android:layout_weight="0.25" />
+
+        <Button
+            android:id="@+id/registerBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/passwordET"
+            android:layout_alignStart="@+id/passwordET"
+            android:layout_below="@+id/passwordET"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="24dp"
+            android:background="#BC2A8D"
+            android:text="تسجيل"
+            android:textStyle="bold"
+            android:textColor="#fff" />
+
+        <TextView
+            android:id="@+id/loginTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/registerTV"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="تسجيل الدخول"
+            android:textColor="#BC2A8D" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:visibility="invisible" />
 
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:textSize="17sp"
-        android:layout_marginTop="15dp"
-        android:id="@+id/emailET"
-        android:hint="Email"
-        android:layout_below="@+id/passwordET"
-        android:layout_alignStart="@+id/passwordET" />
-
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:ems="10"
-        android:textSize="17sp"
-        android:layout_below="@+id/emailET"
-        android:layout_marginTop="15dp"
-        android:id="@+id/ageET"
-        android:hint="Age"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/passwordET" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="phone"
-        android:ems="10"
-        android:textSize="17sp"
-        android:layout_below="@+id/ageET"
-        android:layout_marginTop="15dp"
-        android:id="@+id/phoneNumberET"
-        android:hint="Phone Number"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/passwordET" />
-
-    <Button
-        android:text="Register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="17sp"
-        android:id="@+id/registerBtn"
-        android:layout_marginTop="20dp"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="#fff"
-        android:layout_below="@+id/phoneNumberET"
-        android:layout_alignStart="@+id/phoneNumberET"
-        android:layout_alignEnd="@+id/phoneNumberET" />
-
-    <TextView
-        android:text="Have an account? Login now!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:layout_below="@+id/registerBtn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:id="@+id/loginTV" />
-
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:visibility="invisible"
-        android:id="@+id/progressBar" />
-
-
-</RelativeLayout>
+    </LinearLayout>
+</ScrollView>

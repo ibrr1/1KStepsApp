@@ -42,6 +42,7 @@
             android:id="@+id/passwordET"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:inputType="textPassword"
             android:layout_alignParentEnd="true"
             android:layout_alignStart="@+id/usernameET"
             android:layout_below="@+id/usernameET"
@@ -97,6 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:layout_gravity="center"
             android:visibility="invisible" />
 
 
