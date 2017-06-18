@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context="com.zoonapps.stepscountapp.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="20dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
+            app:srcCompat="@mipmap/app_icon3" />
+
+        <EditText
+            android:id="@+id/usernameET"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_above="@+id/progressBar"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/shape1"
+            android:layout_alignParentStart="true"
+            android:drawableRight="@drawable/ic_account"
+            android:hint="اسم المستخدم"
+            android:singleLine="true"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/passwordET"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/usernameET"
+            android:layout_below="@+id/usernameET"
+            android:background="@drawable/shape2"
+            android:drawableRight="@drawable/ic_lock"
+            android:hint="كلمة المرور"
+            android:singleLine="true"
+            android:gravity="center"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/loginBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/passwordET"
+            android:layout_alignStart="@+id/passwordET"
+            android:layout_below="@+id/passwordET"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="24dp"
+            android:background="#BC2A8D"
+            android:text="دخول"
+            android:textStyle="bold"
+            android:textColor="#fff" />
+
+        <Button
+            android:id="@+id/registerBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/passwordET"
+            android:layout_alignStart="@+id/passwordET"
+            android:layout_below="@+id/passwordET"
+            android:layout_marginBottom="10dp"
+            android:background="#BC2A8D"
+            android:text="تسجيل جديد"
+            android:textColor="#fff"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/continueTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/registerTV"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="الاستمرار دون تسجيل"
+            android:textColor="#BC2A8D" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="invisible" />
+
+
+    </LinearLayout>
+</ScrollView>
