@@ -1,4 +1,4 @@
-package com.zoonapps.stepscountapp;
+package com.zoonapps.stepscountapp.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+import com.zoonapps.stepscountapp.R;
 
 public class RegistrationActivity extends AppCompatActivity {
 

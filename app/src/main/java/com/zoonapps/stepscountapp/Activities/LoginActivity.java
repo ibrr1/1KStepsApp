@@ -1,4 +1,4 @@
-package com.zoonapps.stepscountapp;
+package com.zoonapps.stepscountapp.Activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,8 +18,10 @@ import com.parse.LogInCallback;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.zoonapps.stepscountapp.R;
 
 public class LoginActivity extends AppCompatActivity {
+
 
     EditText mUsernameET;
     EditText mPasswordET;
