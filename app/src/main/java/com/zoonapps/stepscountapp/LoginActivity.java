@@ -86,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
                                 mProgressBar.setVisibility(View.INVISIBLE);
                                 //Login Fail
                                 //get error by calling e.getMessage()
-                                Toast.makeText(getApplicationContext(), "Failed to login!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "خظا في تسجيل الدخول!", Toast.LENGTH_SHORT).show();
 
                             }
                         }

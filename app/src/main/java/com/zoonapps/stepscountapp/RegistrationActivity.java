@@ -3,7 +3,6 @@ package com.zoonapps.stepscountapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -49,16 +48,16 @@ public class RegistrationActivity extends AppCompatActivity {
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.+[a-zA-Z0-9._-]+";
 
                 if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "username, password, email, age or phone number cant't be empty!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "اسم المستخدم او كلمة المرور او الايميل لايمكن ان تكون فارغة!", Toast.LENGTH_SHORT).show();
                 }
                 // username must be more than 4 characters
                 else if (username.trim().length() < 4) {
-                    Toast.makeText(getApplicationContext(), "Username can't be less than 4 characters", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "اسم المستخدم لايمكن ان يكون اقل من 4 حروف!", Toast.LENGTH_SHORT).show();
                 }
                 //if the email is not valid
                 else if (!email.matches(emailPattern))
                 {
-                    Toast.makeText(getApplicationContext(),"Please enter a valid email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"الرجاء ادخال ايميل صحيح!", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -77,17 +76,17 @@ public class RegistrationActivity extends AppCompatActivity {
                             if (e == null) {
                                 mProgressBar.setVisibility(View.INVISIBLE);
                                 //Register Successful
-                                Toast.makeText(getApplicationContext(), "You have successfully register!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "تم التسجيل بنجاح!", Toast.LENGTH_SHORT).show();
 
-                                // Direct the user to MainActivity.java
-                                Intent i = new Intent(RegistrationActivity.this, MainActivity.class);
+                                // Direct the user to SetpsCountActivity.java
+                                Intent i = new Intent(RegistrationActivity.this, SetpsCountActivity.class);
                                 startActivity(i);
                                 finish();
                             } else {
                                 mProgressBar.setVisibility(View.INVISIBLE);
                                 //Register Fail
                                 //get error by calling e.getMessage()
-                                Toast.makeText(getApplicationContext(), "something went wrong!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "حدث خطا!", Toast.LENGTH_SHORT).show();
 
                             }
                         }
