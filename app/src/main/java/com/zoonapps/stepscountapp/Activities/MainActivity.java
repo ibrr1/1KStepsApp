@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         displaySelectedScreen(R.id.nav_menu1);
 
 
+        // test
 
         // Get an instance of the SensorManager
 //        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
