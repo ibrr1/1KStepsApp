@@ -48,16 +48,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // to make the Drawer from right to left
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -71,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         displaySelectedScreen(R.id.nav_menu1);
 
 
-        // test
 
         // Get an instance of the SensorManager
 //        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
