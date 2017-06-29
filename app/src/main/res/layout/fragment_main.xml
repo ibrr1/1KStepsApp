@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="25dp"
+    android:paddingLeft="25dp"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp"
+    android:orientation="vertical">
+
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:text="بدأ" />
+
+    <TextView
+        android:id="@+id/tv_steps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:text="0"
+        android:textSize="50dp"
+        android:layout_alignBottom="@+id/steps_label" />
+
+    <TextView
+        android:id="@+id/tv_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/money_label"
+        android:layout_alignParentEnd="true"
+        android:text="0"
+        android:textSize="50dp"
+        android:layout_alignTop="@+id/moeny_img" />
+
+    <ImageView
+        android:id="@+id/steps_img"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/footsteps"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:id="@+id/moeny_img"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:srcCompat="@drawable/moenyicon"
+        android:layout_below="@+id/steps_label"
+        android:layout_alignStart="@+id/steps_label"
+        android:layout_marginTop="43dp" />
+
+    <TextView
+        android:id="@+id/steps_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="الخطوات"
+        android:gravity="center"
+        android:layout_below="@+id/steps_img"
+        android:layout_alignEnd="@+id/steps_img"
+        android:layout_alignStart="@+id/steps_img" />
+
+    <TextView
+        android:id="@+id/money_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/moeny_img"
+        android:layout_alignStart="@+id/moeny_img"
+        android:layout_below="@+id/moeny_img"
+        android:gravity="center"
+        android:text="الارباح" />
+</RelativeLayout>
