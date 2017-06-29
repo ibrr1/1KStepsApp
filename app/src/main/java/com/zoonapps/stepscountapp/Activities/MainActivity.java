@@ -1,5 +1,7 @@
 package com.zoonapps.stepscountapp.Activities;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -9,6 +11,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
+import android.text.Html;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.parse.ParseUser;
 import com.zoonapps.stepscountapp.Fragments.MainFragment;
 import com.zoonapps.stepscountapp.Fragments.MyAccountFragment;
 import com.zoonapps.stepscountapp.Fragments.TransferFragment;
@@ -120,11 +125,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.logout) {
+            Logout();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    // Logout method
+    public void Logout() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+
+        // Setting Dialog Message
+        alertDialog.setMessage(Html.fromHtml("<font color='#f16e2f'> <strong> Are you sure you want to logout? </strong></font>"));
+
+        // Setting Icon to Dialog
+        alertDialog.setIcon(R.drawable.ic_account);
+
+        // Setting Positive "Yes" Button
+        alertDialog.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Logout current user
+                        ParseUser.logOut();
+                        startActivity(new Intent(MainActivity.this,
+                                LoginActivity.class));
+                        finish();
+                    }
+                });
+        // Setting Negative "NO" Button
+        alertDialog.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Write your code here to invoke NO event
+                        dialog.cancel();
+                    }
+                });
+
+        // Showing Alert Message
+        alertDialog.show();
+
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 import com.zoonapps.stepscountapp.R;
@@ -67,8 +68,6 @@ public class RegistrationActivity extends AppCompatActivity {
                     user.setUsername(username);
                     user.setEmail(email);
                     user.setPassword(password);
-//                    user.put("phoneNumber", phoneNumber);
-//                    user.put("age", age);
 
                     mProgressBar.setVisibility(View.VISIBLE);
                     user.signUpInBackground(new SignUpCallback() {
@@ -79,8 +78,21 @@ public class RegistrationActivity extends AppCompatActivity {
                                 //Register Successful
                                 Toast.makeText(getApplicationContext(), "تم التسجيل بنجاح!", Toast.LENGTH_SHORT).show();
 
+
+                                ParseUser currentUser;
+                                ParseObject po = new ParseObject("UserCurrentStatus");
+
+                                // Retrieve current user from Parse.com
+                                currentUser = ParseUser.getCurrentUser();
+
+                                po.put("username", currentUser.getUsername());
+                                po.put("userId", currentUser.getObjectId());
+                                po.put("userCurrentSteps", 0);
+                                po.put("userCurrentEarning", String.format( "%.3f", 0.0 ));
+                                po.saveInBackground();
+
                                 // Direct the user to SetpsCountActivity.java
-                                Intent i = new Intent(RegistrationActivity.this, SetpsCountActivity.class);
+                                Intent i = new Intent(RegistrationActivity.this, MainActivity.class);
                                 startActivity(i);
                                 finish();
                             } else {
