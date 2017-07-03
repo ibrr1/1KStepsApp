@@ -75,4 +75,21 @@
         android:layout_below="@+id/moeny_img"
         android:gravity="center"
         android:text="الارباح" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/noInternetBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="تحديث"
+        android:visibility="invisible"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

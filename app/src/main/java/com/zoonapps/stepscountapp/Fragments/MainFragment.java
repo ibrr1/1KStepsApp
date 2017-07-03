@@ -1,17 +1,23 @@
 package com.zoonapps.stepscountapp.Fragments;
 
+import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,28 +43,31 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
 
     private int numSteps;
     private double stepPrice;
+    private double mUpdatedStepPrice;
     TextView TvSteps, TvMoney;
     Button BtnStart;
+    Button mNoInternetBtn;
 
     boolean isPressed = true;
 
-//    SharedPreferences pref;
-//    SharedPreferences.Editor editor;
+
     int userCurrentSteps;
     double userCurrentEarning;
 
     ParseUser currentUser;
     String oId;
 
+    ProgressBar mProgressBar;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
         // Retrieve current user from Parse.com
         currentUser = ParseUser.getCurrentUser();
         // show welcome msg
-        Toast.makeText(getActivity(), "Hello, "+currentUser.getUsername(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "مرحبا, "+currentUser.getUsername(), Toast.LENGTH_SHORT).show();
 
         // Get an instance of the SensorManager
         sensorManager = (SensorManager) getActivity().getSystemService(SENSOR_SERVICE);
@@ -69,53 +78,114 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
         TvSteps = (TextView) rootView.findViewById(R.id.tv_steps);
         TvMoney = (TextView) rootView.findViewById(R.id.tv_money);
         BtnStart = (Button) rootView.findViewById(R.id.btn_start);
-
-        // SP
-//        pref = getActivity().getSharedPreferences("YOUR_PREF_NAME", MODE_PRIVATE);
-//        editor = pref.edit();
+        mNoInternetBtn = (Button) rootView.findViewById(R.id.noInternetBtn);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
 
 
-        // Show user current steps and earning on TextView
-        // 1. Steps
-//        userCurrentSteps = pref.getInt("userCurrentSteps", 0);
+        // check for the internet connection
+        if (!isNetworkAvailable()) {
+            mProgressBar.setVisibility(View.INVISIBLE);
+            mNoInternetBtn.setVisibility(View.VISIBLE);
+            BtnStart.setVisibility(View.INVISIBLE);
+            TvSteps.setVisibility(View.INVISIBLE);
+            TvMoney.setVisibility(View.INVISIBLE);
+            Toast.makeText(getActivity(), "الرجاء التاكد من اتصالك بالانترنت!", Toast.LENGTH_SHORT).show();
+
+            mNoInternetBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MainFragment frag_name = new MainFragment();
+                    FragmentManager manager = getActivity().getSupportFragmentManager();
+                    manager.beginTransaction().replace(R.id.content_frame, frag_name, frag_name.getTag()).commit();
+
+                }
+            });
+        }
+
+        // get stepPrice from bsck4app:
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("StepPrice");
+        query2.getInBackground("3GvIDvA5Jy", new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    // object will be your game score
+                    mUpdatedStepPrice = object.getDouble("stepPrice");
+                } else {
+                    // something went wrong
+                    Toast.makeText(getActivity(), "Error getting step price!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // make the button unclickable while wating for the user info to be retrived from back4app
+        BtnStart.setEnabled(false);
 
         // get current user status from back4app
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserCurrentStatus");
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserStatus");
         query.whereEqualTo("username", currentUser.getUsername());
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
+                mProgressBar.setVisibility(View.VISIBLE);
                 if (object == null) {
-                    Toast.makeText(getActivity(), "error back4app", Toast.LENGTH_SHORT).show();
+                    mProgressBar.setVisibility(View.INVISIBLE);
+                    Toast.makeText(getActivity(), "Error getting user data from the backend!", Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Log.d("score", "Retrieved the object.");
-
+                    mProgressBar.setVisibility(View.INVISIBLE);
+                    userCurrentSteps = object.getInt("currentSteps");
+                    userCurrentEarning = object.getDouble("currentEarning");
                     oId = object.getObjectId();
+
+                    if (userCurrentSteps >= 1000){
+                        userCurrentSteps = 0;
+                        userCurrentEarning = 0;
+
+                    }
+
                     // Show user current steps and earning on TextView
                     // 1. Steps
-                    TvSteps.setText(""+object.getInt("userCurrentSteps"));
+                    TvSteps.setText(""+userCurrentSteps);
                     // 2. Earning
-                    TvMoney.setText(""+"$"+ object.get("userCurrentEarning"));
+                    TvMoney.setText(""+ "$"+String.format( "%.3f", userCurrentEarning ));
+                    // make the btn clickable after getting user info
+                    BtnStart.setEnabled(true);
 
                 }
             }
         });
 
-        // 2. Earning
-//        userCurrentEarning = pref.getFloat("userCurrentEarning", 0);
-//        TvMoney.setText(""+"$"+String.format( "%.3f", userCurrentEarning));
-
+        // When user clicks on the btn:
         BtnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
 
                 // when user click the start btn 1st time
                 if(isPressed) {
-                    numSteps = userCurrentSteps;
-                    stepPrice = userCurrentEarning;
 
-                    sensorManager.registerListener(MainFragment.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
-                    BtnStart.setText("ايقاف");
+                    mProgressBar.setVisibility(View.VISIBLE);
+
+                    // Get current user info from back4app
+                    ParseQuery<ParseObject> query = ParseQuery.getQuery("UserStatus");
+                    query.whereEqualTo("username", currentUser.getUsername());
+                    query.getFirstInBackground(new GetCallback<ParseObject>() {
+                        public void done(ParseObject object, ParseException e) {
+                            if (object == null) {
+                                Toast.makeText(getActivity(), "Error getting user data from the backend!", Toast.LENGTH_SHORT).show();
+                                mProgressBar.setVisibility(View.INVISIBLE);
+
+                            } else {
+                                userCurrentSteps = object.getInt("currentSteps");
+                                userCurrentEarning = object.getDouble("currentEarning");
+
+                                numSteps = userCurrentSteps;
+                                stepPrice = userCurrentEarning;
+
+                                sensorManager.registerListener(MainFragment.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
+                                BtnStart.setText("ايقاف");
+
+                                mProgressBar.setVisibility(View.INVISIBLE);
+                            }
+                        }
+                    });
                 }
 
                 // when user click the btn again
@@ -151,33 +221,42 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
 
     @Override
     public void step(long timeNs) {
+        if (numSteps >= 1000){
+            numSteps = 0;
+            stepPrice = 0.0;
+        }
+
         numSteps++;
-        stepPrice += 0.001;
+        stepPrice += mUpdatedStepPrice;
 
         TvSteps.setText(TEXT_NUM_STEPS + numSteps);
         TvMoney.setText( "$"+String.format( "%.3f", stepPrice ) );
 
-        // store user current steps and earning
-//        editor.putInt("userCurrentSteps", numSteps);
-//        editor.putFloat("userCurrentEarning", stepPrice);
-//        editor.commit();
 
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserCurrentStatus");
-
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserStatus");
         // Retrieve the object by id
         query.getInBackground(oId, new GetCallback<ParseObject>() {
             public void done(ParseObject po, ParseException e) {
                 if (e == null) {
                     // Now let's update it with some new data. In this case, only cheatMode and score
                     // will get sent to the Parse Cloud. playerName hasn't changed.
-                    po.put("userCurrentSteps", numSteps);
-                    po.put("userCurrentEarning", String.format( "%.3f", stepPrice ));
+                    po.put("currentSteps", numSteps);
+                    po.put("currentEarning", stepPrice );
                     po.saveInBackground();
                 } else {
-                    Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Error storing data when walking!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    // isNetworkAvailable method to check if the internet is Available or not
+    private boolean isNetworkAvailable() {
+        // Using ConnectivityManager to check for Network Connection
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity()
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
     }
 
 }

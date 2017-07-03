@@ -1,11 +1,14 @@
 package com.zoonapps.stepscountapp.Activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -133,40 +136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    // Logout method
-    public void Logout() {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
 
-        // Setting Dialog Message
-        alertDialog.setMessage(Html.fromHtml("<font color='#f16e2f'> <strong> Are you sure you want to logout? </strong></font>"));
-
-        // Setting Icon to Dialog
-        alertDialog.setIcon(R.drawable.ic_account);
-
-        // Setting Positive "Yes" Button
-        alertDialog.setPositiveButton("Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Logout current user
-                        ParseUser.logOut();
-                        startActivity(new Intent(MainActivity.this,
-                                LoginActivity.class));
-                        finish();
-                    }
-                });
-        // Setting Negative "NO" Button
-        alertDialog.setNegativeButton("No",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Write your code here to invoke NO event
-                        dialog.cancel();
-                    }
-                });
-
-        // Showing Alert Message
-        alertDialog.show();
-
-    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -193,6 +163,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_menu3:
                 fragment = new TransferFragment();
+                break;
+
+            case R.id.nav_menu4:
+                Logout();
                 break;
         }
 
@@ -225,4 +199,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TvSteps.setText(TEXT_NUM_STEPS + numSteps);
     }
 
+    // Logout method
+    public void Logout() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+
+        // Setting Dialog Message
+        alertDialog.setMessage(Html.fromHtml("<font color='#a6267e'> <strong> هل انت متأكد من تسجيل الخروج </strong></font>"));
+
+        // Setting Icon to Dialog
+        alertDialog.setIcon(R.drawable.ic_account);
+
+        // Setting Positive "Yes" Button
+        alertDialog.setPositiveButton("نعم",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Logout current user
+                        ParseUser.logOut();
+                        startActivity(new Intent(MainActivity.this,
+                                LoginActivity.class));
+                        finish();
+                    }
+                });
+        // Setting Negative "NO" Button
+        alertDialog.setNegativeButton("لا",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Write your code here to invoke NO event
+                        dialog.cancel();
+                    }
+                });
+
+        // Showing Alert Message
+        alertDialog.show();
+
+    }
 }

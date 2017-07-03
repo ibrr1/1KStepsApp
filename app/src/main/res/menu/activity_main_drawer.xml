@@ -4,16 +4,21 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_menu1"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_home_black_24dp"
             android:title="الرئيسية" />
         <item
             android:id="@+id/nav_menu2"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_person_black_24dp"
             android:title="حسابي" />
         <item
             android:id="@+id/nav_menu3"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_share_black_24dp"
             android:title="مشاركة التطبيق" />
+
+        <item
+            android:id="@+id/nav_menu4"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="تسجيل الخروج" />
 
     </group>
 

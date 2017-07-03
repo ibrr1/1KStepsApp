@@ -80,15 +80,15 @@ public class RegistrationActivity extends AppCompatActivity {
 
 
                                 ParseUser currentUser;
-                                ParseObject po = new ParseObject("UserCurrentStatus");
+                                ParseObject po = new ParseObject("UserStatus");
 
                                 // Retrieve current user from Parse.com
                                 currentUser = ParseUser.getCurrentUser();
 
                                 po.put("username", currentUser.getUsername());
                                 po.put("userId", currentUser.getObjectId());
-                                po.put("userCurrentSteps", 0);
-                                po.put("userCurrentEarning", String.format( "%.3f", 0.0 ));
+                                po.put("currentSteps", 0);
+                                po.put("currentEarning",0 );
                                 po.saveInBackground();
 
                                 // Direct the user to SetpsCountActivity.java
