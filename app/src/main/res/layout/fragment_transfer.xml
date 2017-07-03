@@ -1,13 +1,67 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.zoonapps.stepscountapp.Fragments.TransferFragment">
+    android:padding="16dp"
+    tools:context="com.zoonapps.stepscountapp.Activities.LoginActivity">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="transfer" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="20dp">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/totalEarningTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="48dp"
+            android:gravity="center"
+            android:background="@drawable/shape1"
+            android:drawableRight="@drawable/ic_money2"
+            android:text="رصيدك الحالي"
+            android:textSize="18sp" />
+
+        <Spinner
+            android:id="@+id/transType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/totalEarningTV"
+            android:layout_centerHorizontal="true"
+            android:layout_alignStart="@+id/totalEarningTV"
+            android:gravity="center"
+            android:background="@drawable/spinner_style"
+            android:layout_gravity="center_horizontal" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/transType"
+            android:layout_marginBottom="16dp"
+            android:layout_alignStart="@+id/totalEarningTV"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/shape2"
+            android:gravity="center"
+            android:inputType="textPersonName"
+            android:text="" />
+
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center" />
+    </LinearLayout>
+</ScrollView>

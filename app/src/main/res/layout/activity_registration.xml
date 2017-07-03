@@ -28,7 +28,7 @@
         <EditText
             android:id="@+id/usernameET"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:layout_above="@+id/progressBar"
             android:layout_alignParentEnd="true"
             android:background="@drawable/shape1"
@@ -42,7 +42,7 @@
         <EditText
             android:id="@+id/passwordET"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:layout_alignParentEnd="true"
             android:layout_alignStart="@+id/usernameET"
@@ -57,7 +57,7 @@
         <EditText
             android:id="@+id/emailET"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
             android:background="@drawable/shape2"
             android:textSize="16sp"

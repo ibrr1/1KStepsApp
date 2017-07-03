@@ -166,6 +166,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_menu4:
+//                fragment = new TransferFragment();
+                break;
+
+            case R.id.nav_menu5:
                 Logout();
                 break;
         }
