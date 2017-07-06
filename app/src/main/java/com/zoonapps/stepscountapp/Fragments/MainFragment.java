@@ -21,6 +21,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -59,6 +63,10 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
 
     ProgressBar mProgressBar;
 
+    // for the ads
+    InterstitialAd mInterstitialAd;
+    private AdView mAdView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -68,6 +76,11 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
         currentUser = ParseUser.getCurrentUser();
         // show welcome msg
         Toast.makeText(getActivity(), "مرحبا, "+currentUser.getUsername(), Toast.LENGTH_SHORT).show();
+
+        // for the ads
+        mAdView = (AdView) rootView.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         // Get an instance of the SensorManager
         sensorManager = (SensorManager) getActivity().getSystemService(SENSOR_SERVICE);
@@ -221,16 +234,39 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
 
     @Override
     public void step(long timeNs) {
+
+
         if (numSteps >= 1000){
             numSteps = 0;
             stepPrice = 0.0;
+        }
+
+        if (numSteps % 50 == 0 && numSteps != 0){
+            Toast.makeText(getActivity(), "m 10!", Toast.LENGTH_SHORT).show();
+
+            mInterstitialAd = new InterstitialAd(getActivity());
+
+            // set the ad unit ID
+            mInterstitialAd.setAdUnitId(getString(R.string.interstitial_full_screen));
+
+            AdRequest adRequest = new AdRequest.Builder()
+                    .build();
+
+            // Load ads into Interstitial Ads
+            mInterstitialAd.loadAd(adRequest);
+
+            mInterstitialAd.setAdListener(new AdListener() {
+                public void onAdLoaded() {
+                    showInterstitial();
+                }
+            });
         }
 
         numSteps++;
         stepPrice += mUpdatedStepPrice;
 
         TvSteps.setText(TEXT_NUM_STEPS + numSteps);
-        TvMoney.setText( "$"+String.format( "%.3f", stepPrice ) );
+        TvMoney.setText("$" + String.format("%.3f", stepPrice));
 
 
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UserStatus");
@@ -241,13 +277,14 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
                     // Now let's update it with some new data. In this case, only cheatMode and score
                     // will get sent to the Parse Cloud. playerName hasn't changed.
                     po.put("currentSteps", numSteps);
-                    po.put("currentEarning", stepPrice );
+                    po.put("currentEarning", stepPrice);
                     po.saveInBackground();
                 } else {
                     Toast.makeText(getActivity(), "Error storing data when walking!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
 
     // isNetworkAvailable method to check if the internet is Available or not
@@ -257,6 +294,13 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null;
+    }
+
+    // for the ads
+    private void showInterstitial() {
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
     }
 
 }

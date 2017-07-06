@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -26,6 +27,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.zoonapps.stepscountapp.R;
 
 /**
@@ -45,7 +47,9 @@ public class TransferFragment extends Fragment {
     double userCurrentEarning;
 
     EditText mET1, mET2, mET3, mET4, mET5, mET6, mET7;
-    int mTransTypePosition;
+    Button mTransBtn;
+
+    String mIBANPattern = "[a-zA-Z].*";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -65,6 +69,7 @@ public class TransferFragment extends Fragment {
         mET5 = (EditText) rootView.findViewById(R.id.et5);
         mET6 = (EditText) rootView.findViewById(R.id.et6);
         mET7 = (EditText) rootView.findViewById(R.id.et7);
+        mTransBtn = (Button) rootView.findViewById(R.id.transBtn);
 
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
 
@@ -131,8 +136,13 @@ public class TransferFragment extends Fragment {
             public void onItemSelected(AdapterView<?> arg0, View view, int position, long id) {
 
                 if (mTransType.getSelectedItemPosition() == 0) {
-                    Toast.makeText(getActivity(), "الرجاء اختيار طريقة تحويل الرصيد!", Toast.LENGTH_SHORT).show();
                     mET1.setVisibility(View.GONE);
+                    mET2.setVisibility(View.GONE);
+                    mET3.setVisibility(View.GONE);
+                    mET4.setVisibility(View.GONE);
+                    mET5.setVisibility(View.GONE);
+                    mET6.setVisibility(View.GONE);
+                    mET7.setVisibility(View.GONE);
 
                 } else if (mTransType.getSelectedItemPosition() == 1) {
                     mET2.setVisibility(View.GONE);
@@ -143,6 +153,8 @@ public class TransferFragment extends Fragment {
                     mET7.setVisibility(View.GONE);
 
                     mET1.setVisibility(View.VISIBLE);
+                    mET1.setText("");
+                    mET1.setBackground(getResources().getDrawable(R.drawable.shape2));
                     mET1.setHint("البريد الالكتروني او الجوال لدى باي بال");
 
                 } else if (mTransType.getSelectedItemPosition() == 2) {
@@ -154,6 +166,14 @@ public class TransferFragment extends Fragment {
                     mET2.setVisibility(View.VISIBLE);
                     mET3.setVisibility(View.VISIBLE);
                     mET4.setVisibility(View.VISIBLE);
+
+                    mET1.setText("");
+                    mET2.setText("");
+                    mET3.setText("");
+                    mET4.setText("");
+
+                    mET4.setBackground(getResources().getDrawable(R.drawable.shape2));
+
 
                     mET1.setHint("الاسم الثلاثي");
                     mET2.setHint("اسم البنك");
@@ -169,6 +189,16 @@ public class TransferFragment extends Fragment {
                     mET6.setVisibility(View.VISIBLE);
                     mET7.setVisibility(View.VISIBLE);
 
+                    mET1.setText("");
+                    mET2.setText("");
+                    mET3.setText("");
+                    mET4.setText("");
+                    mET5.setText("");
+                    mET6.setText("");
+                    mET7.setText("");
+
+                    mET7.setBackground(getResources().getDrawable(R.drawable.shape2));
+
                     mET1.setHint("الاسم الكامل");
                     mET2.setHint("الدولة");
                     mET3.setHint("المدينة");
@@ -183,55 +213,134 @@ public class TransferFragment extends Fragment {
         });
 
 
+        mTransBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String et1 = mET1.getText().toString();
+                String et2 = mET2.getText().toString();
+                String et3 = mET3.getText().toString();
+                String et4 = mET4.getText().toString();
+                String et5 = mET5.getText().toString();
+                String et6 = mET6.getText().toString();
+                String et7 = mET7.getText().toString();
+
+                if (userCurrentEarning >= 40) {
 
 
-//        mTransType.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if (mTransTypePosition == 0){
-//                    Toast.makeText(getActivity(), "الرجاء اختيار طريقة تحويل الرصيد!", Toast.LENGTH_SHORT).show();
-//
-//                }
-//
-//                else if(mTransTypePosition == 1){
-//                    mET1.setVisibility(View.VISIBLE);
-//                    mET1.setHint("البريد الالكتروني او الجوال لدى باي بال");
-//
-//                }
-//                else if (mTransTypePosition == 2){
-//                    mET1.setVisibility(View.VISIBLE);
-//                    mET2.setVisibility(View.VISIBLE);
-//                    mET3.setVisibility(View.VISIBLE);
-//                    mET4.setVisibility(View.VISIBLE);
-//
-//                    mET1.setHint("الاسم الثلاثي");
-//                    mET2.setHint("اسم البنك");
-//                    mET3.setHint("رقم الايبان");
-//                    mET4.setHint("تأكيد رقم الايبان");
-//                } else if (mTransTypePosition == 3){
-//                    mET1.setVisibility(View.VISIBLE);
-//                    mET2.setVisibility(View.VISIBLE);
-//                    mET3.setVisibility(View.VISIBLE);
-//                    mET4.setVisibility(View.VISIBLE);
-//                    mET5.setVisibility(View.VISIBLE);
-//                    mET6.setVisibility(View.VISIBLE);
-//                    mET7.setVisibility(View.VISIBLE);
-//
-//                    mET1.setHint("الاسم الكامل");
-//                    mET2.setHint("الدولة");
-//                    mET3.setHint("المدينة");
-//                    mET4.setHint("اسم البنك");
-//                    mET5.setHint("عنوان البنك");
-//                    mET5.setHint("فرع البنك");
-//                    mET6.setHint("رقم الايبان");
-//                    mET7.setHint("تأكيد رقم الايبان");
-//                }
-//            }
-//        });
+                    if (mTransType.getSelectedItemPosition() == 0) {
+                        Toast.makeText(getActivity(), "الرجاء اختيار طريقة تحويل الرصيد!", Toast.LENGTH_SHORT).show();
+                    } else if (mTransType.getSelectedItemPosition() == 1) {
+
+                        if (et1.isEmpty()) {
+                            Toast.makeText(getActivity(), "يجب تعبئة جميع الحقول", Toast.LENGTH_SHORT).show();
+                        } else {
+                            mProgressBar.setVisibility(View.VISIBLE);
+                            ParseObject po = new ParseObject("PaymentRequests");
+                            po.put("username", mCurrentUser.getUsername());
+                            po.put("userEmail", mCurrentUser.getEmail());
+                            po.put("method", mTransType.getSelectedItem().toString());
+
+                            po.put("PayPalID", mET1.getText().toString());
+                            po.put("amount", String.format("%.3f", userCurrentEarning));
+                            po.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        mProgressBar.setVisibility(View.INVISIBLE);
+                                        Toast.makeText(getActivity(), "تم ارسال الطلب بنجاح", Toast.LENGTH_SHORT).show();
+
+                                    } else {
+                                        mProgressBar.setVisibility(View.INVISIBLE);
+                                        Toast.makeText(getActivity(), "حدث خطا", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                        }
+
+                    } else if (mTransType.getSelectedItemPosition() == 2) {
+
+                        if (et1.isEmpty() || et2.isEmpty() || et3.isEmpty() || et4.isEmpty()) {
+                            Toast.makeText(getActivity(), "يجب تعبئة جميع الحقول", Toast.LENGTH_SHORT).show();
+                        } else if (!et3.equals(et4)) {
+                            Toast.makeText(getActivity(), "رقم الايبان وتاكيد رقم الايبان يجب ان يكون متشابه", Toast.LENGTH_SHORT).show();
+
+                        } else if (!et3.substring(0, 1).toString().matches(mIBANPattern) || !et3.substring(1, 2).toString().matches(mIBANPattern)) {
+                            Toast.makeText(getActivity(), "رقم الايبان غير صحيح", Toast.LENGTH_SHORT).show();
+                        } else {
+                            mProgressBar.setVisibility(View.VISIBLE);
+
+                            ParseObject po = new ParseObject("PaymentRequests");
+                            po.put("username", mCurrentUser.getUsername());
+                            po.put("userEmail", mCurrentUser.getEmail());
+                            po.put("method", mTransType.getSelectedItem().toString());
+
+                            po.put("fullName", mET1.getText().toString());
+                            po.put("bankName", mET1.getText().toString());
+                            po.put("IBAN", mET1.getText().toString());
+                            po.put("amount", String.format("%.3f", userCurrentEarning));
+                            po.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        mProgressBar.setVisibility(View.INVISIBLE);
+                                        Toast.makeText(getActivity(), "تم ارسال الطلب بنجاح", Toast.LENGTH_SHORT).show();
+
+                                    } else {
+                                        mProgressBar.setVisibility(View.INVISIBLE);
+                                        Toast.makeText(getActivity(), "حدث خطا", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    } else if (mTransType.getSelectedItemPosition() == 3) {
+
+                        if (et1.isEmpty() || et2.isEmpty() || et3.isEmpty() || et4.isEmpty() ||
+                                et5.isEmpty() || et6.isEmpty() || et7.isEmpty()) {
+                            Toast.makeText(getActivity(), "يجب تعبئة جميع الحقول", Toast.LENGTH_SHORT).show();
+                        } else if (!et6.equals(et7)) {
+                            Toast.makeText(getActivity(), "رقم الايبان وتاكيد رقم الايبان يجب ان يكون متشابه", Toast.LENGTH_SHORT).show();
+
+                        } else if (!et3.substring(0, 1).toString().matches(mIBANPattern) ||
+                                !et3.substring(1, 2).toString().matches(mIBANPattern)) {
+                            Toast.makeText(getActivity(), "رقم الايبان غير صحيح", Toast.LENGTH_SHORT).show();
+                        } else {
+                            mProgressBar.setVisibility(View.VISIBLE);
+                            ParseObject po = new ParseObject("PaymentRequests");
+                            po.put("username", mCurrentUser.getUsername());
+                            po.put("userEmail", mCurrentUser.getEmail());
+                            po.put("method", mTransType.getSelectedItem().toString());
+
+                            po.put("fullName", mET1.getText().toString());
+                            po.put("country", mET1.getText().toString());
+                            po.put("city", mET1.getText().toString());
+                            po.put("bankName", mET1.getText().toString());
+                            po.put("bankBranch", mET1.getText().toString());
+                            po.put("IBAN", mET1.getText().toString());
+                            po.put("amount", String.format("%.3f", userCurrentEarning));
+                            po.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(ParseException e) {
+                                    if (e == null) {
+                                        mProgressBar.setVisibility(View.INVISIBLE);
+                                        Toast.makeText(getActivity(), "تم ارسال الطلب بنجاح", Toast.LENGTH_SHORT).show();
+
+                                    } else {
+                                        mProgressBar.setVisibility(View.INVISIBLE);
+                                        Toast.makeText(getActivity(), "حدث خطا", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                } else{
+                    Toast.makeText(getActivity(), "الرصيد الحالي اقل من 40$", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
 
         return rootView;
-
 
     }
 

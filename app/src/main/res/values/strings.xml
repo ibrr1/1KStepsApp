@@ -16,8 +16,12 @@
         <item>باي بال(PayPal)</item>
         <item> حساب بنكي في السعودية</item>
         <item> حساب بنكي في دولة اخرى</item>
-
     </string-array>
+
+
+    <!-- AdMob ad unit IDs -->
+    <string name="banner_home_footer">ca-app-pub-8910385891672370/8354990849</string>
+    <string name="interstitial_full_screen">ca-app-pub-8910385891672370/9831724047</string>
 
 
 </resources>

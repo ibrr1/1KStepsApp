@@ -51,7 +51,7 @@
             android:background="@drawable/shape3"
             android:gravity="center"
             android:visibility="gone"
-            android:inputType="textPersonName"/>
+            android:inputType="textEmailAddress"/>
 
         <EditText
             android:id="@+id/et2"
@@ -124,6 +124,16 @@
             android:gravity="center"
             android:visibility="gone"
             android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/transBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="10dp"
+            android:text="طلب التحويل" />
 
 
         <ProgressBar

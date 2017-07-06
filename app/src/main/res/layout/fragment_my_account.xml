@@ -12,73 +12,55 @@
 
     <TextView
         android:id="@+id/usernameTV"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:gravity="center"
+        android:background="@drawable/shape1"
         android:text="اسم المستخدم "
-        android:textSize="21sp" />
+        android:textSize="18sp"
+        android:drawableRight="@drawable/ic_account"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
-    <View
-        android:id="@+id/view1"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="0.5dp"
-        android:layout_below="@+id/usernameTV"
-        android:background="#c0c0c0" />
 
     <TextView
         android:id="@+id/emailTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/view1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="الايميل"
-        android:textSize="21sp" />
-
-    <View
-        android:id="@+id/view2"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_height="0.5dp"
-        android:layout_below="@+id/emailTV"
-        android:background="#c0c0c0" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/usernameTV"
+        android:gravity="center"
+        android:background="@drawable/shape3"
+        android:text="الايميل"
+        android:drawableRight="@drawable/email_icon"
+        android:textSize="18sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/totalStepsTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/view2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="مجموع الخطوات"
-        android:textSize="21sp" />
-
-    <View
-        android:id="@+id/view3"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_height="0.5dp"
-        android:layout_below="@+id/totalStepsTV"
-        android:background="#c0c0c0" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/emailTV"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:background="@drawable/shape3"
+        android:drawableRight="@drawable/ic_walk"
+        android:text="مجموع الخطوات"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/totalEarningTV"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/view3"
+        android:layout_below="@+id/totalStepsTV"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:background="@drawable/shape2"
         android:gravity="center"
+        android:drawableRight="@drawable/ic_money2"
         android:text="رصيدك الحالي"
-        android:textSize="21sp" />
+        android:textSize="18sp" />
 
     <ProgressBar
         android:id="@+id/progressBar"
