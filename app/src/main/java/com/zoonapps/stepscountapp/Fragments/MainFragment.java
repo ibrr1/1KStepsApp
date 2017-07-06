@@ -48,8 +48,8 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
     private int numSteps;
     private double stepPrice;
     private double mUpdatedStepPrice;
-    TextView TvSteps, TvMoney;
-    Button BtnStart;
+    TextView TvSteps, TvMoney, mBtnLabel;
+    at.markushi.ui.CircleButton mBtnStart;
     Button mNoInternetBtn;
 
     boolean isPressed = true;
@@ -74,8 +74,8 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
 
         // Retrieve current user from Parse.com
         currentUser = ParseUser.getCurrentUser();
-        // show welcome msg
-        Toast.makeText(getActivity(), "مرحبا, "+currentUser.getUsername(), Toast.LENGTH_SHORT).show();
+//        // show welcome msg
+//        Toast.makeText(getActivity(), "مرحبا, "+currentUser.getUsername(), Toast.LENGTH_SHORT).show();
 
         // for the ads
         mAdView = (AdView) rootView.findViewById(R.id.adView);
@@ -90,16 +90,18 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
 
         TvSteps = (TextView) rootView.findViewById(R.id.tv_steps);
         TvMoney = (TextView) rootView.findViewById(R.id.tv_money);
-        BtnStart = (Button) rootView.findViewById(R.id.btn_start);
+        mBtnLabel = (TextView) rootView.findViewById(R.id.btnLabel);
+
         mNoInternetBtn = (Button) rootView.findViewById(R.id.noInternetBtn);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
-
+        mBtnStart = (at.markushi.ui.CircleButton) rootView.findViewById(R.id.btn_start);
 
         // check for the internet connection
         if (!isNetworkAvailable()) {
             mProgressBar.setVisibility(View.INVISIBLE);
             mNoInternetBtn.setVisibility(View.VISIBLE);
-            BtnStart.setVisibility(View.INVISIBLE);
+            mBtnStart.setVisibility(View.INVISIBLE);
+            rootView.findViewById(R.id.btn_start).setVisibility(View.INVISIBLE);
             TvSteps.setVisibility(View.INVISIBLE);
             TvMoney.setVisibility(View.INVISIBLE);
             Toast.makeText(getActivity(), "الرجاء التاكد من اتصالك بالانترنت!", Toast.LENGTH_SHORT).show();
@@ -130,7 +132,8 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
         });
 
         // make the button unclickable while wating for the user info to be retrived from back4app
-        BtnStart.setEnabled(false);
+        mBtnStart.setEnabled(false);
+
 
         // get current user status from back4app
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UserStatus");
@@ -160,16 +163,17 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
                     // 2. Earning
                     TvMoney.setText(""+ "$"+String.format( "%.3f", userCurrentEarning ));
                     // make the btn clickable after getting user info
-                    BtnStart.setEnabled(true);
+                    mBtnStart.setEnabled(true);
+
 
                 }
             }
         });
 
-        // When user clicks on the btn:
-        BtnStart.setOnClickListener(new View.OnClickListener() {
+        // When user Click on the btn
+        mBtnStart.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View arg0) {
+            public void onClick(View view) {
 
                 // when user click the start btn 1st time
                 if(isPressed) {
@@ -193,8 +197,9 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
                                 stepPrice = userCurrentEarning;
 
                                 sensorManager.registerListener(MainFragment.this, accel, SensorManager.SENSOR_DELAY_FASTEST);
-                                BtnStart.setText("ايقاف");
 
+                                mBtnStart.setImageResource(R.drawable.ic_man_standing);
+                                mBtnLabel.setText("ايقاف");
                                 mProgressBar.setVisibility(View.INVISIBLE);
                             }
                         }
@@ -203,7 +208,8 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
 
                 // when user click the btn again
                 else{
-                    BtnStart.setText("بدأ");
+                    mBtnStart.setImageResource(R.drawable.ic_man_walking);
+                    mBtnLabel.setText("استمرار");
                     sensorManager.unregisterListener(MainFragment.this);
                 }
 
@@ -242,8 +248,6 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
         }
 
         if (numSteps % 50 == 0 && numSteps != 0){
-            Toast.makeText(getActivity(), "m 10!", Toast.LENGTH_SHORT).show();
-
             mInterstitialAd = new InterstitialAd(getActivity());
 
             // set the ad unit ID

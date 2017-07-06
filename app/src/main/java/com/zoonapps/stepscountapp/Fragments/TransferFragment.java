@@ -334,7 +334,7 @@ public class TransferFragment extends Fragment {
                         }
                     }
                 } else{
-                    Toast.makeText(getActivity(), "الرصيد الحالي اقل من 40$", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "رصيدك الحالي اقل من 40$!", Toast.LENGTH_SHORT).show();
 
                 }
             }

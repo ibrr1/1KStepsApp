@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText mUsernameET;
     EditText mPasswordET;
     Button mLoginBtn, mRegisterBtn;
-    TextView mRegisterTV, mContinueTV;
+    TextView mRegisterTV;
     ProgressBar mProgressBar;
 
     @Override
@@ -46,13 +46,13 @@ public class LoginActivity extends AppCompatActivity {
         if (currentUser != null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
 
         mUsernameET = (EditText) findViewById(R.id.usernameET);
         mPasswordET = (EditText) findViewById(R.id.passwordET);
         mLoginBtn = (Button) findViewById(R.id.loginBtn);
         mRegisterBtn = (Button) findViewById(R.id.registerBtn);
-        mContinueTV = (TextView) findViewById(R.id.continueTV);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -103,14 +103,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(LoginActivity.this, RegistrationActivity.class);
-                startActivity(i);
-            }
-        });
-
-        mContinueTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(i);
             }
         });

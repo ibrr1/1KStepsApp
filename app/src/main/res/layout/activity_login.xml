@@ -80,18 +80,6 @@
             android:textColor="#fff"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/continueTV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/registerTV"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:text="الاستمرار دون تسجيل"
-            android:textColor="#BC2A8D" />
-
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"

@@ -7,20 +7,20 @@
     android:layout_height="match_parent"
     android:paddingRight="25dp"
     android:paddingLeft="25dp"
-    android:paddingBottom="10dp"
-    android:paddingTop="10dp"
+    android:paddingBottom="0dp"
+    android:paddingTop="20dp"
     android:orientation="vertical">
 
 
-    <Button
-        android:id="@+id/btn_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:theme="@style/AppTheme.Button"
-        android:text="بدأ" />
+    <!--<Button-->
+        <!--android:id="@+id/btn_start"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:theme="@style/AppTheme.Button"-->
+        <!--android:text="بدأ" />-->
 
     <TextView
         android:id="@+id/tv_steps"
@@ -114,5 +114,36 @@
         ads:adSize="BANNER"
         ads:adUnitId="@string/banner_home_footer">
     </com.google.android.gms.ads.AdView>
+
+    <FrameLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_above="@+id/adView"
+        android:layout_centerHorizontal="true">
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/btn_start"
+            android:layout_width="140dip"
+            android:layout_height="140dip"
+            android:src="@drawable/ic_man_walking"
+            app:cb_color="#BC2A8D"
+            app:cb_pressedRingWidth="8dip"
+            android:layout_below="@+id/progressBar"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/btnLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:layout_marginTop="40dp"
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:layout_alignParentBottom="true"
+            android:text="بـدء" >
+        </TextView>
+    </FrameLayout>
 
 </RelativeLayout>

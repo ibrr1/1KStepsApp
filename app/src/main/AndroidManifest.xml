@@ -21,6 +21,7 @@
 
         <activity
             android:name=".Activities.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBarTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,11 +32,13 @@
 
         <activity
             android:name=".Activities.RegistrationActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/NoActionBarTheme" />
         <activity android:name=".Activities.SetpsCountActivity" />
 
         <activity
             android:name=".Activities.MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"></activity>
 
