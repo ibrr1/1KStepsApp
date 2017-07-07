@@ -3,6 +3,7 @@ package com.zoonapps.stepscountapp.Activities;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -16,6 +17,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -25,9 +28,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.zoonapps.stepscountapp.Fragments.MainFragment;
 import com.zoonapps.stepscountapp.Fragments.MyAccountFragment;
 import com.zoonapps.stepscountapp.Fragments.TransferFragment;
@@ -132,6 +140,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.nav_menu5:
+                feedback();
+                break;
+
+            case R.id.nav_menu6:
                 Logout();
                 break;
         }
@@ -181,5 +193,83 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Showing Alert Message
         alertDialog.show();
 
+    }
+
+    //========Feedback===============
+
+    // feedback method to allow the user to send feedback
+    public void feedback() {
+        // get prompts.xml view
+        LayoutInflater li = LayoutInflater.from(MainActivity.this);
+        View promptsView = li.inflate(R.layout.prompts_feedback, null);
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+        alertDialogBuilder.setIcon(R.drawable.ic_feedback_black_24dp);
+
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+        TextView title = new TextView(this);
+
+// You Can Customise your Title here
+        title.setText("تواصل معنا");
+        title.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        title.setPadding(10, 10, 10, 10);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(Color.WHITE);
+        title.setTextSize(20);
+
+        alertDialogBuilder.setCustomTitle(title);
+
+        final EditText userInput = ((EditText) promptsView.findViewById(R.id.editTextDialogUserInput));
+
+        // set dialog message
+        alertDialogBuilder.setCancelable(false).setPositiveButton("ارسال", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // When the user clicks "Save," upload the
+                // post to Parse
+                // Create the Post object
+                if(userInput.getText().toString().isEmpty()){
+                    Toast.makeText(getApplicationContext(),"الرساله قصيره جدا!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    ParseObject post = new ParseObject("Feedbacks");
+                    post.put("Feedback", userInput.getText().toString());
+
+                    // Create an author relationship with the
+                    // current user
+                    post.put("Usernmae",ParseUser.getCurrentUser());
+
+                    // Save the post and return
+                    post.saveInBackground(new SaveCallback() {
+
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                setResult(RESULT_OK);
+
+                            } else {
+                                Toast.makeText(getApplicationContext(),"Error saving: "+ e.getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                    });
+                    Toast.makeText(getBaseContext(),"تم الارسال..شكرا",Toast.LENGTH_SHORT).show();
+                }
+            }
+        })
+                .setNegativeButton("الغاء",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,
+                                        int id) {
+                        dialog.cancel();
+                    }
+
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 }

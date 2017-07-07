@@ -50,6 +50,8 @@ public class TransferFragment extends Fragment {
     Button mTransBtn;
 
     String mIBANPattern = "[a-zA-Z].*";
+
+    int mThreshold;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -99,26 +101,42 @@ public class TransferFragment extends Fragment {
             }
         });
 
-        // to show snakbar
-        getActivity().findViewById(android.R.id.content);
-        final Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content),
-                "* ملاحظة: يجب ان يكون رصيدك 40 دولار او اكثر لكي يتم تحويل المبلغ", Snackbar.LENGTH_INDEFINITE);
+        // get threshold from bsck4app:
+        ParseQuery<ParseObject> query2 = ParseQuery.getQuery("StepPrice");
+        query2.getInBackground("zsXlkjl0XE", new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    // object will be your game score
+                    mThreshold = object.getInt("stepPrice");
 
-        snackbar.setAction("X", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                snackbar.dismiss();
+                    // to show snakbar
+                    getActivity().findViewById(android.R.id.content);
+                    final Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content),
+                            "* ملاحظة: يجب ان يكون رصيدك "+ mThreshold + "$"+" لكي يتم تحويل المبلغ", Snackbar.LENGTH_INDEFINITE);
+
+                    snackbar.setAction("X", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            snackbar.dismiss();
+                        }
+                    });
+
+                    View view = snackbar.getView();
+
+                    view.setBackgroundColor(Color.parseColor("#a6267e"));
+                    snackbar.setActionTextColor(Color.WHITE);
+
+                    TextView tv = (TextView)view.findViewById(android.support.design.R.id.snackbar_text);
+                    tv.setTextColor(Color.WHITE);
+                    snackbar.show();
+                } else {
+                    // something went wrong
+                    Toast.makeText(getActivity(), "Error getting step price!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
-        View view = snackbar.getView();
 
-        view.setBackgroundColor(Color.parseColor("#a6267e"));
-        snackbar.setActionTextColor(Color.WHITE);
-
-        TextView tv = (TextView)view.findViewById(android.support.design.R.id.snackbar_text);
-        tv.setTextColor(Color.WHITE);
-        snackbar.show();
 
         // for spinner
         // Donation type spinner
@@ -212,7 +230,6 @@ public class TransferFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> arg0) { }
         });
 
-
         mTransBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -224,7 +241,7 @@ public class TransferFragment extends Fragment {
                 String et6 = mET6.getText().toString();
                 String et7 = mET7.getText().toString();
 
-                if (userCurrentEarning >= 40) {
+                if (userCurrentEarning >= mThreshold) {
 
 
                     if (mTransType.getSelectedItemPosition() == 0) {
@@ -307,7 +324,7 @@ public class TransferFragment extends Fragment {
                         } else {
                             mProgressBar.setVisibility(View.VISIBLE);
                             ParseObject po = new ParseObject("PaymentRequests");
-                            po.put("username", mCurrentUser.getUsername());
+                            po.put("username", mCurrentUser);
                             po.put("userEmail", mCurrentUser.getEmail());
                             po.put("method", mTransType.getSelectedItem().toString());
 
@@ -334,7 +351,7 @@ public class TransferFragment extends Fragment {
                         }
                     }
                 } else{
-                    Toast.makeText(getActivity(), "رصيدك الحالي اقل من 40$!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "رصيدك الحالي اقل من"+ mThreshold+"$", Toast.LENGTH_SHORT).show();
 
                 }
             }

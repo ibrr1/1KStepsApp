@@ -19,7 +19,7 @@ import com.zoonapps.stepscountapp.R;
 
 public class RegistrationActivity extends AppCompatActivity {
 
-    EditText mUsernameET, mPasswordET, mEmailET;
+    EditText mUsernameET, mPasswordET, mPhoneET, mEmailET;
     Button mRegisterBtn;
     ProgressBar mProgressBar;
     TextView mLoginTV;
@@ -32,8 +32,9 @@ public class RegistrationActivity extends AppCompatActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         mUsernameET = (EditText) findViewById(R.id.usernameET);
-        mEmailET = (EditText) findViewById(R.id.emailET);
         mPasswordET = (EditText) findViewById(R.id.passwordET);
+        mPhoneET = (EditText) findViewById(R.id.phoneET);
+        mEmailET = (EditText) findViewById(R.id.emailET);
         mRegisterBtn = (Button) findViewById(R.id.registerBtn);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mLoginTV = (TextView) findViewById(R.id.loginTV);
@@ -44,12 +45,13 @@ public class RegistrationActivity extends AppCompatActivity {
                 //Declare variables	and get the text from the EditText
                 String username = mUsernameET.getText().toString();
                 String password = mPasswordET.getText().toString();
+                String phone = mPhoneET.getText().toString();
                 String email = mEmailET.getText().toString();
 
                 //email validation
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\\.+[a-zA-Z0-9._-]+";
 
-                if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
+                if (username.isEmpty() || password.isEmpty() || phone.isEmpty() || email.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "اسم المستخدم او كلمة المرور او الايميل لايمكن ان تكون فارغة!", Toast.LENGTH_SHORT).show();
                 }
                 // username must be more than 4 characters
@@ -66,8 +68,10 @@ public class RegistrationActivity extends AppCompatActivity {
                 else {
                     ParseUser user = new ParseUser();
                     user.setUsername(username);
-                    user.setEmail(email);
                     user.setPassword(password);
+                    user.put("phone", phone);
+                    user.setEmail(email);
+
 
                     mProgressBar.setVisibility(View.VISIBLE);
                     user.signUpInBackground(new SignUpCallback() {
@@ -85,7 +89,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 // Retrieve current user from Parse.com
                                 currentUser = ParseUser.getCurrentUser();
 
-                                po.put("username", currentUser.getUsername());
+                                po.put("username", currentUser);
                                 po.put("userId", currentUser.getObjectId());
                                 po.put("currentSteps", 0);
                                 po.put("currentEarning",0 );
