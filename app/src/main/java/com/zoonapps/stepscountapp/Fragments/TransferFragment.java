@@ -78,7 +78,7 @@ public class TransferFragment extends Fragment {
 
         // get current user status from back4app
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UserStatus");
-        query.whereEqualTo("username", mCurrentUser.getUsername());
+        query.whereEqualTo("userId", mCurrentUser.getObjectId());
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 mProgressBar.setVisibility(View.VISIBLE);
@@ -112,7 +112,7 @@ public class TransferFragment extends Fragment {
                     // to show snakbar
                     getActivity().findViewById(android.R.id.content);
                     final Snackbar snackbar = Snackbar.make(getActivity().findViewById(android.R.id.content),
-                            "* ملاحظة: يجب ان يكون رصيدك "+ mThreshold + "$"+" لكي يتم تحويل المبلغ", Snackbar.LENGTH_INDEFINITE);
+                            "* ملاحظة: يجب ان يكون رصيدك "+ mThreshold + "$"+" او اكثر لكي يتم تحويل المبلغ", Snackbar.LENGTH_INDEFINITE);
 
                     snackbar.setAction("X", new View.OnClickListener() {
                         @Override
@@ -253,12 +253,14 @@ public class TransferFragment extends Fragment {
                         } else {
                             mProgressBar.setVisibility(View.VISIBLE);
                             ParseObject po = new ParseObject("PaymentRequests");
-                            po.put("username", mCurrentUser.getUsername());
+                            po.put("username", mCurrentUser);
                             po.put("userEmail", mCurrentUser.getEmail());
                             po.put("method", mTransType.getSelectedItem().toString());
 
                             po.put("PayPalID", mET1.getText().toString());
+
                             po.put("amount", String.format("%.3f", userCurrentEarning));
+
                             po.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
@@ -288,13 +290,14 @@ public class TransferFragment extends Fragment {
                             mProgressBar.setVisibility(View.VISIBLE);
 
                             ParseObject po = new ParseObject("PaymentRequests");
-                            po.put("username", mCurrentUser.getUsername());
+                            po.put("username", mCurrentUser);
                             po.put("userEmail", mCurrentUser.getEmail());
                             po.put("method", mTransType.getSelectedItem().toString());
 
                             po.put("fullName", mET1.getText().toString());
-                            po.put("bankName", mET1.getText().toString());
-                            po.put("IBAN", mET1.getText().toString());
+                            po.put("bankName", mET2.getText().toString());
+                            po.put("IBAN", mET3.getText().toString());
+
                             po.put("amount", String.format("%.3f", userCurrentEarning));
                             po.saveInBackground(new SaveCallback() {
                                 @Override
@@ -318,8 +321,8 @@ public class TransferFragment extends Fragment {
                         } else if (!et6.equals(et7)) {
                             Toast.makeText(getActivity(), "رقم الايبان وتاكيد رقم الايبان يجب ان يكون متشابه", Toast.LENGTH_SHORT).show();
 
-                        } else if (!et3.substring(0, 1).toString().matches(mIBANPattern) ||
-                                !et3.substring(1, 2).toString().matches(mIBANPattern)) {
+                        } else if (!et6.substring(0, 1).toString().matches(mIBANPattern) ||
+                                !et7.substring(1, 2).toString().matches(mIBANPattern)) {
                             Toast.makeText(getActivity(), "رقم الايبان غير صحيح", Toast.LENGTH_SHORT).show();
                         } else {
                             mProgressBar.setVisibility(View.VISIBLE);
@@ -329,11 +332,13 @@ public class TransferFragment extends Fragment {
                             po.put("method", mTransType.getSelectedItem().toString());
 
                             po.put("fullName", mET1.getText().toString());
-                            po.put("country", mET1.getText().toString());
-                            po.put("city", mET1.getText().toString());
-                            po.put("bankName", mET1.getText().toString());
-                            po.put("bankBranch", mET1.getText().toString());
-                            po.put("IBAN", mET1.getText().toString());
+                            po.put("country", mET2.getText().toString());
+                            po.put("city", mET3.getText().toString());
+                            po.put("bankName", mET4.getText().toString());
+                            po.put("bankBranch", mET5.getText().toString());
+                            po.put("IBAN", mET6.getText().toString());
+
+
                             po.put("amount", String.format("%.3f", userCurrentEarning));
                             po.saveInBackground(new SaveCallback() {
                                 @Override

@@ -48,7 +48,7 @@ public class MyAccountFragment extends Fragment {
 
         // get current user status from back4app
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UserStatus");
-        query.whereEqualTo("username", mCurrentUser.getUsername());
+        query.whereEqualTo("userId", mCurrentUser.getObjectId());
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 mProgressBar.setVisibility(View.VISIBLE);

@@ -137,7 +137,7 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
 
         // get current user status from back4app
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UserStatus");
-        query.whereEqualTo("username", currentUser.getUsername());
+        query.whereEqualTo("userId", currentUser.getObjectId());
         query.getFirstInBackground(new GetCallback<ParseObject>() {
             public void done(ParseObject object, ParseException e) {
                 mProgressBar.setVisibility(View.VISIBLE);
@@ -182,7 +182,7 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
 
                     // Get current user info from back4app
                     ParseQuery<ParseObject> query = ParseQuery.getQuery("UserStatus");
-                    query.whereEqualTo("username", currentUser.getUsername());
+                    query.whereEqualTo("userId", currentUser.getObjectId());
                     query.getFirstInBackground(new GetCallback<ParseObject>() {
                         public void done(ParseObject object, ParseException e) {
                             if (object == null) {
@@ -244,7 +244,7 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
 
         if (numSteps >= 1000){
             numSteps = 0;
-            stepPrice = 0.0;
+//            stepPrice = 0.0;
         }
 
         if (numSteps % 50 == 0 && numSteps != 0){
