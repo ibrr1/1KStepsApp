@@ -52,6 +52,7 @@ public class TransferFragment extends Fragment {
     String mIBANPattern = "[a-zA-Z].*";
 
     int mThreshold;
+    String oId;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -90,6 +91,8 @@ public class TransferFragment extends Fragment {
                     mProgressBar.setVisibility(View.INVISIBLE);
                     userCurrentSteps = object.getInt("currentSteps");
                     userCurrentEarning = object.getDouble("currentEarning");
+                    oId = object.getObjectId();
+
 
                     // Show user current info
 //                    mUsernameTV.setText("اسم المستخدم: " + mCurrentUser.getUsername().toString());
@@ -267,6 +270,7 @@ public class TransferFragment extends Fragment {
                                     if (e == null) {
                                         mProgressBar.setVisibility(View.INVISIBLE);
                                         Toast.makeText(getActivity(), "تم ارسال الطلب بنجاح", Toast.LENGTH_SHORT).show();
+                                        RestUserBalance();
 
                                     } else {
                                         mProgressBar.setVisibility(View.INVISIBLE);
@@ -305,6 +309,7 @@ public class TransferFragment extends Fragment {
                                     if (e == null) {
                                         mProgressBar.setVisibility(View.INVISIBLE);
                                         Toast.makeText(getActivity(), "تم ارسال الطلب بنجاح", Toast.LENGTH_SHORT).show();
+                                        RestUserBalance();
 
                                     } else {
                                         mProgressBar.setVisibility(View.INVISIBLE);
@@ -345,7 +350,9 @@ public class TransferFragment extends Fragment {
                                 public void done(ParseException e) {
                                     if (e == null) {
                                         mProgressBar.setVisibility(View.INVISIBLE);
+                                        RestUserBalance();
                                         Toast.makeText(getActivity(), "تم ارسال الطلب بنجاح", Toast.LENGTH_SHORT).show();
+
 
                                     } else {
                                         mProgressBar.setVisibility(View.INVISIBLE);
@@ -364,6 +371,24 @@ public class TransferFragment extends Fragment {
 
         return rootView;
 
+    }
+
+    // to rest user balance to zero
+    public void RestUserBalance(){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("UserStatus");
+        // Retrieve the object by id
+        query.getInBackground(oId, new GetCallback<ParseObject>() {
+            public void done(ParseObject po, ParseException e) {
+                if (e == null) {
+                    // Now let's update it with some new data. In this case, only cheatMode and score
+                    // will get sent to the Parse Cloud. playerName hasn't changed.
+                    po.put("currentEarning", 0);
+                    po.saveInBackground();
+                } else {
+                    Toast.makeText(getActivity(), "Error storing data when walking!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
