@@ -1,18 +1,9 @@
 package com.zoonapps.stepscountapp.Activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -38,10 +29,9 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.zoonapps.stepscountapp.Fragments.MainFragment;
 import com.zoonapps.stepscountapp.Fragments.MyAccountFragment;
+import com.zoonapps.stepscountapp.Fragments.RequestsFragment;
 import com.zoonapps.stepscountapp.Fragments.TransferFragment;
 import com.zoonapps.stepscountapp.R;
-import com.zoonapps.stepscountapp.StepDetector;
-import com.zoonapps.stepscountapp.StepListener;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -123,14 +113,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_menu1:
                 fragment = new MainFragment();
                 break;
+
             case R.id.nav_menu2:
                 fragment = new MyAccountFragment();
                 break;
+
             case R.id.nav_menu3:
                 fragment = new TransferFragment();
                 break;
 
             case R.id.nav_menu4:
+                fragment = new RequestsFragment();
+                break;
+
+            case R.id.nav_menu5:
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
                 String shareBody = "Here is the share content body";
@@ -139,11 +135,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(Intent.createChooser(sharingIntent, "Share via"));
                 break;
 
-            case R.id.nav_menu5:
+            case R.id.nav_menu6:
                 feedback();
                 break;
 
-            case R.id.nav_menu6:
+            case R.id.nav_menu7:
                 Logout();
                 break;
         }
@@ -232,12 +228,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     Toast.makeText(getApplicationContext(),"الرساله قصيره جدا!", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    ParseObject post = new ParseObject("Feedbacks");
+                    ParseObject post = new ParseObject("Feedback");
                     post.put("Feedback", userInput.getText().toString());
 
                     // Create an author relationship with the
                     // current user
-                    post.put("Usernmae",ParseUser.getCurrentUser());
+                    post.put("Username",ParseUser.getCurrentUser());
 
                     // Save the post and return
                     post.saveInBackground(new SaveCallback() {

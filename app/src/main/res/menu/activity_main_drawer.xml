@@ -18,16 +18,21 @@
 
         <item
             android:id="@+id/nav_menu4"
+            android:icon="@drawable/ic_monetization_on_black_24dp"
+            android:title="متابعة طلبات التحويل" />
+
+        <item
+            android:id="@+id/nav_menu5"
             android:icon="@drawable/ic_share_black_24dp"
             android:title="مشاركة التطبيق" />
 
         <item
-            android:id="@+id/nav_menu5"
+            android:id="@+id/nav_menu6"
             android:icon="@drawable/ic_feedback_black_24dp"
             android:title="تواصل معنا" />
 
         <item
-            android:id="@+id/nav_menu6"
+            android:id="@+id/nav_menu7"
             android:icon="@drawable/ic_exit_to_app_black_24dp"
             android:title="تسجيل الخروج" />
 
