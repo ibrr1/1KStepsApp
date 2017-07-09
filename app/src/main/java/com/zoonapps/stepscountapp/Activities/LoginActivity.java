@@ -63,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                     String password = mPasswordET.getText().toString();
 
                     if (!isNetworkAvailable()) {
-                        Toast.makeText(getApplicationContext(), "Please check your internet!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "الرجاء التاكد من اتصالك بالانترنت", Toast.LENGTH_SHORT).show();
                     }
                     //Check if EditTexts are not empty
                     else if (username.isEmpty() || password.isEmpty()) {
@@ -78,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                                     //Login Successful
                                     //you can display sth or do sth
                                     //For example Welcome + ParseUser.getUsername()
-                                    Toast.makeText(getApplicationContext(), "Login successfully!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "تم تسجيل الدخول بنجاح", Toast.LENGTH_SHORT).show();
                                     // Direct the user to MainActivity.java
                                     Intent intent = new Intent();
                                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
