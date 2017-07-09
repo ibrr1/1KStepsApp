@@ -12,16 +12,6 @@
     android:orientation="vertical">
 
 
-    <!--<Button-->
-        <!--android:id="@+id/btn_start"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentEnd="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:theme="@style/AppTheme.Button"-->
-        <!--android:text="بدأ" />-->
-
     <TextView
         android:id="@+id/tv_steps"
         android:layout_width="wrap_content"
@@ -145,5 +135,7 @@
             android:text="بـدء" >
         </TextView>
     </FrameLayout>
+
+
 
 </RelativeLayout>

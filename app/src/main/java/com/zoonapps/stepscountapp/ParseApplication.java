@@ -7,6 +7,7 @@ package com.zoonapps.stepscountapp;
 import android.app.Application;
 import android.content.Context;
 import com.parse.Parse;
+import com.parse.ParseInstallation;
 
 public class ParseApplication extends Application {
     private static ParseApplication instance = new ParseApplication();
@@ -29,5 +30,10 @@ public class ParseApplication extends Application {
                 .applicationId(APPLICATION_ID)
                 .clientKey(CLIENT_KEY)
                 .server(BACK4PAPP_API).build());
+
+        // This is the installation part
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("GCMSenderId", "745828699509");
+        installation.saveInBackground();
     }
 }

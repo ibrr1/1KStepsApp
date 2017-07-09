@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -134,7 +135,6 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
         // make the button unclickable while wating for the user info to be retrived from back4app
         mBtnStart.setEnabled(false);
 
-
         // get current user status from back4app
         ParseQuery<ParseObject> query = ParseQuery.getQuery("UserStatus");
         query.whereEqualTo("userId", currentUser.getObjectId());
@@ -154,7 +154,6 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
                     if (userCurrentSteps >= 1000){
                         userCurrentSteps = 0;
                         userCurrentEarning = 0;
-
                     }
 
                     // Show user current steps and earning on TextView
@@ -164,8 +163,6 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
                     TvMoney.setText(""+ "$"+String.format( "%.3f", userCurrentEarning ));
                     // make the btn clickable after getting user info
                     mBtnStart.setEnabled(true);
-
-
                 }
             }
         });
@@ -217,7 +214,11 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
             }
         });
 
+
+
         return rootView;
+
+
     }
 
     @Override
@@ -288,7 +289,6 @@ public class MainFragment extends Fragment implements SensorEventListener, StepL
                 }
             }
         });
-
     }
 
     // isNetworkAvailable method to check if the internet is Available or not
